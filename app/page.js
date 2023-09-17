@@ -25,6 +25,13 @@ export default function Home() {
     console.log(response1.data)
     setFollowers(response1.data)
   }
+  const getFollowers= async(userName)=>{
+    setFollowers([]);
+    var response= await axios.get(`https://api.github.com/users/${userName}/followers`);
+    // setFollowers(response.data)
+    var res= await axios.get(`https://api.github.com/users/${userName}`);
+    setData(res.data)
+  }
   return (
     <div >
       <h1 className='text-4xl text-center font-bold py-2 linear-gradient-to-r from-slate-200 to-red-500'>GitHub App</h1>
@@ -58,7 +65,7 @@ export default function Home() {
               <td className='md:w-40 pl-5 md:pl-16'>{items.id}</td>
               <td className='md:w-40  mx-auto pl-12'><img src={items.avatar_url} alt="" width={40} className='my-auto rounded-full' /></td>
               <td className='md:w-40 pl-16 pr-4'>{items.login}</td>
-              <td className='md:w-40  pr-4 hover:text-blue-600'><Link href={items.html_url}>{items.html_url}</Link></td>
+              <td className='md:w-40  pr-4 hover:text-blue-600'><button className='text-white bg-blue-500 hover:bg-blue-700 rounded-lg px-2 py-1 my-2 mx-5 w-32' onClick={()=>getFollowers(items.login)}>get Followers</button></td>
             </tr>
           })}
         </table>)}
